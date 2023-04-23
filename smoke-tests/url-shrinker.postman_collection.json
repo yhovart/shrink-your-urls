@@ -1,0 +1,843 @@
+{
+	"info": {
+		"_postman_id": "5fc132a0-d700-4b67-b0d9-d762c7900330",
+		"name": "url-shrinker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health",
+			"item": [
+				{
+					"name": "Actuator",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/actuator",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"actuator"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API",
+			"item": [
+				{
+					"name": "Errors",
+					"item": [
+						{
+							"name": "Get unkonwn path",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let response = pm.response.json();\r",
+											"pm.test(\"Response data is ok\", function () {\r",
+											"  pm.expect(response.type).to.equal('http://urlshrinker.com/errors/not-found');\r",
+											"  pm.expect(response.title).to.equal('Resource Not found');\r",
+											"  pm.expect(response.status).to.equal(404);\r",
+											"  pm.expect(response.detail).to.equal('Resource urls with id 888d37aa-4f8a-410f-8bb5-e0efd8249bc2 not found.');\r",
+											"  pm.expect(response.instance).to.equal('/api/v1/urls/888d37aa-4f8a-410f-8bb5-e0efd8249bc2');\r",
+											"  pm.expect(response.ressourceId).to.equal('888d37aa-4f8a-410f-8bb5-e0efd8249bc2');\r",
+											"  pm.expect(response.resourceType).to.equal('urls');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"  pm.response.to.have.status(404);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/urls/888d37aa-4f8a-410f-8bb5-e0efd8249bc2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"urls",
+										"888d37aa-4f8a-410f-8bb5-e0efd8249bc2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get invalid uuid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let response = pm.response.json();\r",
+											"pm.test(\"Response data is ok\", function () {\r",
+											"  pm.expect(response.type).to.equal('http://urlshrinker.com/errors/bad-request');\r",
+											"  pm.expect(response.title).to.equal('Bad Request');\r",
+											"  pm.expect(response.status).to.equal(400);\r",
+											"  pm.expect(response.detail).to.equal('getUrl.arg0: must be a valid UUID');\r",
+											"  pm.expect(response.instance).to.equal('/api/v1/urls/invalid');\r",
+											"  pm.expect(response.error).to.equal('must be a valid UUID');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"  pm.response.to.have.status(400);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/urls/invalid",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"urls",
+										"invalid"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Invalid URL",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"url\": \"google recherche notarius\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/urls",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"urls"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "URLs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"pm.test(\"Response data is ok\", function () {\r",
+									"  pm.expect(response).to.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/urls/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"urls",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Google Search URL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"pm.test(\"Response data is ok\", function () {\r",
+									"  pm.expect(response).to.have.property('id');\r",
+									"  pm.expect(response).to.have.property('shortCode');\r",
+									"  pm.expect(response.originalUrl).to.equal('https://www.google.com/search?q=notarius');\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set('google-search-short-code', response.shortCode );\r",
+									"pm.collectionVariables.set('google-search-id', response.id );\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"url\": \"https://www.google.com/search?q=notarius\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/urls",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"urls"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Google Search URL Again",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"pm.test(\"Response data is ok\", function () {\r",
+									"  pm.expect(response.shortCode).to.equal(pm.collectionVariables.get('google-search-short-code'));\r",
+									"  pm.expect(response.id).to.equal(pm.collectionVariables.get('google-search-id'));\r",
+									"  pm.expect(response.originalUrl).to.equal('https://www.google.com/search?q=notarius');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"url\": \"https://www.google.com/search?q=notarius\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/urls",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"urls"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Google Searh URL Again",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"pm.test(\"Response data is ok\", function () {\r",
+									"  pm.expect(response.shortCode).to.equal(pm.collectionVariables.get('google-search-short-code'));\r",
+									"  pm.expect(response.id).to.equal(pm.collectionVariables.get('google-search-id'));\r",
+									"  pm.expect(response.originalUrl).to.equal('https://www.google.com/search?q=notarius');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/urls/{{google-search-id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"urls",
+								"{{google-search-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Notarius Fullstack URL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"pm.test(\"Response data is ok\", function () {\r",
+									"  pm.expect(response).to.have.property('id');\r",
+									"  pm.expect(response).to.have.property('shortCode');\r",
+									"  pm.expect(response.originalUrl).to.equal('https://www.notarius.com/fr/ressources/carrieres/developpeur-full-stack-java');\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set('notarius-fullstack-short-code', response.shortCode );\r",
+									"pm.collectionVariables.set('notarius-fullstack-id', response.id );\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"url\": \"https://www.notarius.com/fr/ressources/carrieres/developpeur-full-stack-java\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/urls",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"urls"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Notarius Fullstack URL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"pm.test(\"Response data is ok\", function () {\r",
+									"  pm.expect(response.shortCode).to.equal(pm.collectionVariables.get('notarius-fullstack-short-code'));\r",
+									"  pm.expect(response.id).to.equal(pm.collectionVariables.get('notarius-fullstack-id'));\r",
+									"  pm.expect(response.originalUrl).to.equal('https://www.notarius.com/fr/ressources/carrieres/developpeur-full-stack-java');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/urls/{{notarius-fullstack-id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"urls",
+								"{{notarius-fullstack-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Image URL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"pm.test(\"Response data is ok\", function () {\r",
+									"  pm.expect(response).to.have.property('id');\r",
+									"  pm.expect(response).to.have.property('shortCode');\r",
+									"  pm.expect(response.originalUrl).to.equal('https://y2u.be/img/why_y2ube_v2@2x.png');\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set('y2u.be-short-code', response.shortCode );\r",
+									"pm.collectionVariables.set('y2u.be-id', response.id );\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"url\": \"https://y2u.be/img/why_y2ube_v2@2x.png\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/urls",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"urls"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get y2u.be URL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"pm.test(\"Response data is ok\", function () {\r",
+									"  pm.expect(response.shortCode).to.equal(pm.collectionVariables.get('y2u.be-short-code'));\r",
+									"  pm.expect(response.id).to.equal(pm.collectionVariables.get('y2u.be-id'));\r",
+									"  pm.expect(response.originalUrl).to.equal('https://y2u.be/img/why_y2ube_v2@2x.png');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/urls/{{y2u.be-id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"urls",
+								"{{y2u.be-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get URLs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"pm.test(\"Response data is ok\", function () {\r",
+									"  pm.expect(response.length).to.equal(3);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/urls/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"urls",
+								"search"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Redirect",
+			"item": [
+				{
+					"name": "Redirect google search",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/{{google-search-short-code}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"{{google-search-short-code}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Redirect Notarius full stack",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/{{notarius-fullstack-short-code}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"{{notarius-fullstack-short-code}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Redirect y2u.be image",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Page is google search\", function () {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.equal('image/png');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/{{y2u.be-short-code}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"{{y2u.be-short-code}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Redirect unknown code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Page is not found\", function () {\r",
+									"  pm.expect(pm.response.text()).to.equal('<h1>404 - Not Found</h1>');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/123456789",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"123456789"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid code redirect",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Page is not found\", function () {\r",
+									"  pm.expect(pm.response.text()).to.equal('<h1>404 - Not Found</h1>');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/123456789132456789",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"123456789132456789"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "google-search-short-id",
+			"value": "id"
+		},
+		{
+			"key": "google-search-short-id",
+			"value": ""
+		},
+		{
+			"key": "google-search-short-code",
+			"value": ""
+		},
+		{
+			"key": "google-search-id",
+			"value": ""
+		},
+		{
+			"key": "notarius-fullstack-short-code",
+			"value": ""
+		},
+		{
+			"key": "notarius-fullstack-id",
+			"value": ""
+		},
+		{
+			"key": "y2u.be-short-code",
+			"value": ""
+		},
+		{
+			"key": "y2u.be-id",
+			"value": ""
+		}
+	]
+}
