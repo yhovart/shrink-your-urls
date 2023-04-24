@@ -1,120 +1,119 @@
-On suppose qu'il s'agit d'un besoin type youtube/instagram/whatsapp/twitter : Réduire les urls pour pouvoir les partager facilement, notamment dans les outils ou le npmbre de caracteres est limité.
+# url-shrinker
 
-La solution sera composée :
- * d'une API REST pour adminsitrer la banque d'URL:
-   * Creer une nouvelle url courte
-   * Récupérer les informaitons d'une url courte
-   * quelques autres endpoints classiques pour faciliter les tests
- * Une url de redirection 
-   * http://domain/code-court  --> http://mon-url-originale (HTTP 302)
-
-La redirection s'effectue côté client.
-
-Postulats:
-  * Gros volume de données, sujet a augmenter avec le temps (382 milliards de photos sur google en 2030)
-  * Grosse consommation du service de redirection (7 milliards de photos partagées par jour sur whatsapp, 1.3 pour instagram)
+Webapp qui a 2 but:
+  * Exposer l'API de creation/recherche de shorts url
+  * Exposer une url permettant aux utilisateurs d'etre redigié vers l'url original a partir de l'url ourte
 
 
-Le tiny code
+## Démarrer
 
-Specs:
-  * 9 caracteres (http://domain/xxxxxxxxx)
-  * non prédictible
-
-Le code ne pourra pas être triable (trop court pour encoder un timestamp.)
-Encodé en Base 64 (par simplicité; BASE 62 serait mieux pour eviter des caracters a encoder dans l'url):
-  * URL compliant
-  * Bonne entropie (1,80144E+16 permutations) 
-
-Options : 
-  * Timestamp + data + encoding : simple et triable mais depasse les 9 char (meme en trichant sur l'Epoch). On ne peut le tronquer sans avoir BCP de collisions.
-  * Random : simple, collisions a gérer
-  * Hashing : simple, la meme URL hashée 2x donne le meme code; mais collisions a gérer, peut-être plus de collisions que random?
-  * Sequence : pas de collision, la BD devient un SPOF/bottleneck pour generer le code court; Encoder en base64 la chaine de caractere generer a partir de la sequence pose deux problemes cela dit: relativement predictible et max 999999. L'idéeal serait de combiner la sequence à d'autres informaitons (ip, random, etc)
-  * Pré-génération: Avoir un stock de permutations disponibles et uniques pré-générées en avance (par un daemon qui surveille que le stock disponible est toujours au dessus d'un certain seuil par exemple). Accélère la creation et simplifie la gestion des collisions. Un peu plus complexe a mettre en place et demande peut-etre un storage dédié. La methode de generation importe assez peu dans ce cas. Cet entrepôt peut lui aussi devenir un SPOF/bottelneck.
-  * Combinaison de ces elements
-
-Pour une performance optimale, on pourrait opter pounr une combinaison de:
-  * BD relationnelle ou NOSQL pour stocker la data  (DynamoDB)
-  * Cache pour stocker les pair code / url souvennt demandées (Memory DB ou ElasticCache for Redis)
-  * Un systeme de pré-génération fournissant des codes utilisables (et garantissant que celui fournit n'a pas été utilisé par un autre)
-
-Dans le cadre de cet exercice on choisira quelque chose de plus simple cela dit:
-  * on genere une chaine de caractere "random" qu'on encode en Base64 et on verifie grace a une contrainte d'unicité qu'elle n'Est pas utilisée
-  * les données liées a l'API REST seront stockés dans une base de données; on utilisera une base de données h2 démarrées dans un process séparé pour pouvoir simuler la scalabilité en demarrant plusieurs instances
-  * a voir en fonction du temps: l'utilisation d'un cache sera simulé via les annotations Spring Cache
-  * a voir fonciton du temps : une simulation d'un systeme de pre-generation est envisageable
-
-Le développement aura une approche preuve de ceoncept en tête avec dans l'idée de permettre de tester différentes configurations facilement (un profil "mongo" pourrait remplacer le repository h2 par un repository branché sur un service mongo DB par exemple; on pourrait envisager la meme chose pur utiliser un cache dredis ou changer le mecanisme de generatioin du code court eglement).
-
-
-
-
-
-
-
-
-
-Persistence :
-
-Options :
- * SGBD traditionnel : Parfait pour les sequences et garantir l'unicité du code court, pas d'autres utilités d'avoir une BD relationelle par contre; attention au volume et aux performances; difficilement scalable passé un certain volume (cf. approche instagram dans les references)
- * NoSQL : Performances, scalabilité.
- * Cache / BD Memoire : Throughput (trés utile pour l'url de redirection); Choisir un service qui supporte la persistence. Volume par url léger; mais beaucoup d'urls a stocker: attention au coût.
- * Combinaison (SGBD ou NoSQL + Cache)
-
-
-
-
-CLI:
-
-Démarrer en local, bd embarquée
-cd url-shrinker
+### Standalone, bd embarquée
 gradlew bootRun
 
+### Démarrer une instance, bd locale
 
-Démarrer la BD partagée
-cd url-storage
-gradlew bootRun
+Démarrer la BD partagée (port 9090)
+    cd ../url-storage
+    gradlew bootRun
 
-Démarrer une instance
-cd url-shrinker
-gradlew clean build
+Démarrer l'application en se brancant sur la BD partagée (port 9090)
+    cd ../url-shrinker
+    gradlew clean build
+    java -jar build\libs\url-shrinker-0.0.1-SNAPSHOT.jar --spring.datasource.url=jdbc:h2:tcp://localhost:9090/mem:url-storage --spring.datasource.username=yho --spring.datasource.password=localusage
+TODO : equivalent via gradlew bootRun
 
-Démarrer une instance (changer le dernier parametre pour utiliser un port disponible):
-java -jar build\libs\url-storage-0.0.1-SNAPSHOT.jar --spring.datasource.url=jdbc:h2:tcp://localhost:9090/mem:url-storage --spring.datasource.username=yho --spring.datasource.password=localusage --server.port=8090
+### Démarrer plusieurs instance, bd locale
+
+Démarrer la BD partagée (port 9090)
+    cd ../url-storage
+    gradlew bootRun
+
+Démarrer l'application en se brancant sur la BD partagée, faire varier le port utilisé
+    cd ../url-shrinker
+    gradlew bootRun --args="--spring.datasource.url=jdbc:h2:tcp://localhost:9090/mem:url-storage --spring.datasource.username=yho --spring.datasource.password=localusage --server.port=8090"
+    gradlew bootRun --args="--spring.datasource.url=jdbc:h2:tcp://localhost:9090/mem:url-storage --spring.datasource.username=yho --spring.datasource.password=localusage --server.port=8091"
 
 
-Profils:
-  * default : H2 + random short code + base64
+Ou si on préfére lancer un process java directement
+    gradlew clean build
+    java -jar build\libs\url-shrinker-0.0.1-SNAPSHOT.jar --spring.datasource.url=jdbc:h2:tcp://localhost:9090/mem:url-storage --spring.datasource.username=yho --spring.datasource.password=localusage --server.port=8090
+    java -jar build\libs\url-shrinker-0.0.1-SNAPSHOT.jar --spring.datasource.url=jdbc:h2:tcp://localhost:9090/mem:url-storage --spring.datasource.username=yho --spring.datasource.password=localusage --server.port=8091
+
+
+## Customisation au runtime
+
+### Profils Spring
+Plusieurs profils permettent de changer le comportement au runtime afin de comparer les différentes approches possibles.
+Ces élèments disparaitront une fois la phase de preuve de concept terminée.
+
+#### Profils liés au stockage des urls
+  * jpa : h2 , actif par défaut
   * memory : remplace h2 par une implem memoire (hashmap)
   * mongo : remplace h2 par une implem mongo -- TODO
   * redis : ajouter un cache Redis pour fournir les URLs courtes --> longues -- TODO
+
+#### Profils liés à la stratégie de génération du code court
+  * random : UUID.random, actif par défaut
   * hash : remplace la generation du code par un hashing de l'url longue
   * time : remplace la generation du code par un timeInMillis
   * seq : remplace la generation du code par l'utilisation d'une sequence -- TODO
   * pregenerate : remplace l enertion du code par le recours a des codes pre-generes -- TODO
 
+Les profils par défaut sont donc : jpa (h2) et random.
 
-Paramétres surchargeables:
+### Autres paramétres
+
+La configuration spring est autement modifiable au runtime via les variables d'environnement ou arguments de CLI.
+
+Cette application dispose cependant de deux paramétres supplémentaires et surchargeables:
   * url-shrinker.retryOnNonUniqueCode : Defaut 3. ex: --url-shrinker.retryOnNonUniqueCode=10
   * url-shrinker.shortCodeLength : Defult 9. may be ineffective according to the strategy choosen. ex: --url-shrinker.shortCodeSize=20  -- TODO
 
 
-Port différent, stockage en memoire plutot que h2, hashing plutot que random, 50 retry plutot que 3, code sur 3 caractere plutot que 9
-java -jar build\libs\url-shrinker-0.0.1-SNAPSHOT.jar --server.port=9999 --spring.profiles.active=memory,hash --url-shrinker.retryOnNonUniqueCode=50 --url-shrinker.shortCodeLength=3
+### Exemples de configurations "custom"
 
+Port différent, stockage en memoire, code basé sur un hash, 50 retry max (vs 3), code de 3 caractéres (vs 9)
+   java -jar build\libs\url-shrinker-0.0.1-SNAPSHOT.jar --spring.profiles.active=memory,seq --url-shrinker.retryOnNonUniqueCode=50 --url-shrinker.shortCodeLength=3 
 
+Port différent, stockage mongo, code basé sur une sequence
+   java -jar build\libs\url-shrinker-0.0.1-SNAPSHOT.jar --server.port=9999 --spring.profiles.active=mongo,seq 
 
+ Si on lance plusierus instances utiliser des parametres consistant en dehors du port.
 
+## Notes du Codeur
 
-Références
-https://instagram-engineering.com/sharding-ids-at-instagram-1cf5a71e5a5c
-https://blog.codinghorror.com/url-shortening-hashes-in-practice/
-https://photutorial.com/photos-statistics/
-https://gosunaina.medium.com/designing-a-scalable-url-shortener-like-tiny-url-72106a7018ee
-https://www.geeksforgeeks.org/how-to-design-a-tiny-url-or-url-shortener/
-https://blog.codinghorror.com/url-shortening-hashes-in-practice/
+Directement destiné aux reviewers de cet exercice.
+
+### NDC et Todds
+// NDC dans le code correspond à des commentaires destinés aux reviewer
+// TODO représente les choses qui n'ont pas pu etre terminée ou qui demanderaient plus d'investigations avant de trancher
+
+### Choses nouvelles tesées
+
+J'ai voulu profiter de cet exercice pour tester différentes choses:
+  * VsCode
+  * Les record classes
+  * Coder sans lombok (supposant que les record le rendent moins utile; un peu décu) ou les data class kotlin
+  * gradle.kts (transparent)
+  * les auditable jpa (revisite en SB3.x, pas tellement changés)
+  * un systeme modulaire pour conditionner le comportement au runtime (sans passer par différentes branches de code ou des application-xxx.yml). Content du résultat mais pas utile pour tout. Dans le cadre d'un vrai POC res serieux on preferrait eviter de polluer chaque version avec des dependances non necessaires par exemple.
+
+Eléments envisagés mais abandonnés :
+  * Rest assured: abandonné faute de temps, l'idée aurait été d'ecrire un petit scenario de smoke test pour le CI en demarrant 2 instances sunr une seule BD
+  * Redis et Embedded redis : abandonné car la librairie ne semble plus maintenue vois incompatible avec SB3, j'aurai aimé avoir le temps de tester un petit cache Redis mais je voulais un projet qui demarre sans aucun setup. Qui plus est le stockage pure cache (meme avec de la persistence) n'est probablement pas judicieux.
+
+### Autres points laissés de côté délibérément
+
+  * Sécurisation de l'API : pas tellement le sujet ici; il est évident qu'en production une API de ce genre serait sécurisée
+  * Test containers : faute de temps 
+  * Spring hateoas : faute de temps et pour garder le code relativement lisible
+  * Swagger : même raison + pas convaincu de l'apport sur une API interne de maniere generale
+  * CI/CD/deploiement sur un cloud
+  * Développement réactif : ne semble pas intéressant par rapport au use case + gros potentiel de depasser le timing
+  * GraphQL vs REST : idem
+  * Cryptage des URLS stockées : une url peut contenir des informations confidentielles comme des identifiants de session ou des query params; on a contourné ici le probleme en supposant que le syteme appelant l'API ne pouvait pas fournir ce genre d'elements.
+
+## Références
 
 https://www.sivalabs.in/spring-boot-3-error-reporting-using-problem-details/
 https://www.javaguides.net/2018/09/spring-data-jpa-auditing-with-spring-boot2-and-mysql-example.html

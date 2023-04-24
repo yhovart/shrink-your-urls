@@ -1,11 +1,9 @@
 package com.yho.urlshrinker.repository;
 
-import java.net.URL;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yho.urlshrinker.exception.NonUniqueCodeException;
