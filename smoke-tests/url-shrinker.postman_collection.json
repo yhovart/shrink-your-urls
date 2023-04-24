@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5fc132a0-d700-4b67-b0d9-d762c7900330",
+		"_postman_id": "24156090-e0ee-4575-b1cf-19d8563ff9f5",
 		"name": "url-shrinker",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -31,9 +31,8 @@
 							"raw": "http://{{domain}}/actuator",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{domain}}"
 							],
-							"port": "8080",
 							"path": [
 								"actuator"
 							]
@@ -83,9 +82,8 @@
 									"raw": "http://{{domain}}/api/v1/urls/888d37aa-4f8a-410f-8bb5-e0efd8249bc2",
 									"protocol": "http",
 									"host": [
-										"localhost"
+										"{{domain}}"
 									],
-									"port": "8080",
 									"path": [
 										"api",
 										"v1",
@@ -108,9 +106,13 @@
 											"  pm.expect(response.type).to.equal('http://urlshrinker.com/errors/bad-request');\r",
 											"  pm.expect(response.title).to.equal('Bad Request');\r",
 											"  pm.expect(response.status).to.equal(400);\r",
-											"  pm.expect(response.detail).to.equal('getUrl.arg0: must be a valid UUID');\r",
+											"  // in french or english according to the locale\r",
+											"  pm.expect(response.detail).to.contain('UUID');\r",
+											"  pm.expect(response.detail).to.contain('valid');\r",
 											"  pm.expect(response.instance).to.equal('/api/v1/urls/invalid');\r",
-											"  pm.expect(response.error).to.equal('must be a valid UUID');\r",
+											"  // in french or english according to the locale\r",
+											"  pm.expect(response.error).to.contain('UUID');\r",
+											"  pm.expect(response.error).to.contain('valid');\r",
 											"});\r",
 											"\r",
 											"pm.test(\"Status code is 400\", function () {\r",
@@ -129,9 +131,8 @@
 									"raw": "http://{{domain}}/api/v1/urls/invalid",
 									"protocol": "http",
 									"host": [
-										"localhost"
+										"{{domain}}"
 									],
-									"port": "8080",
 									"path": [
 										"api",
 										"v1",
@@ -160,9 +161,8 @@
 									"raw": "http://{{domain}}/api/v1/urls",
 									"protocol": "http",
 									"host": [
-										"localhost"
+										"{{domain}}"
 									],
-									"port": "8080",
 									"path": [
 										"api",
 										"v1",
@@ -173,6 +173,42 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Clear Urls",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"  pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://{{domain}}/api/v1/urls",
+							"protocol": "http",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"urls"
+							]
+						}
+					},
+					"response": []
 				},
 				{
 					"name": "URLs",
@@ -204,9 +240,8 @@
 							"raw": "http://{{domain}}/api/v1/urls/search",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{domain}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -262,9 +297,8 @@
 							"raw": "http://{{domain}}/api/v1/urls",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{domain}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -316,9 +350,8 @@
 							"raw": "http://{{domain}}/api/v1/urls",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{domain}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -360,9 +393,8 @@
 							"raw": "http://{{domain}}/api/v1/urls/{{google-search-id}}",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{domain}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -418,9 +450,8 @@
 							"raw": "http://{{domain}}/api/v1/urls",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{domain}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -462,9 +493,8 @@
 							"raw": "http://{{domain}}/api/v1/urls/{{notarius-fullstack-id}}",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{domain}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -519,9 +549,8 @@
 							"raw": "http://{{domain}}/api/v1/urls",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{domain}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -563,9 +592,8 @@
 							"raw": "http://{{domain}}/api/v1/urls/{{y2u.be-id}}",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{domain}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -606,9 +634,8 @@
 							"raw": "http://{{domain}}/api/v1/urls/search",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{domain}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"v1",
@@ -647,9 +674,8 @@
 							"raw": "http://{{domain}}/{{google-search-short-code}}",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{domain}}"
 							],
-							"port": "8080",
 							"path": [
 								"{{google-search-short-code}}"
 							]
@@ -679,9 +705,8 @@
 							"raw": "http://{{domain}}/{{notarius-fullstack-short-code}}",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{domain}}"
 							],
-							"port": "8080",
 							"path": [
 								"{{notarius-fullstack-short-code}}"
 							]
@@ -717,9 +742,8 @@
 							"raw": "http://{{domain}}/{{y2u.be-short-code}}",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{domain}}"
 							],
-							"port": "8080",
 							"path": [
 								"{{y2u.be-short-code}}"
 							]
@@ -755,9 +779,8 @@
 							"raw": "http://{{domain}}/123456789",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{domain}}"
 							],
-							"port": "8080",
 							"path": [
 								"123456789"
 							]
@@ -793,9 +816,8 @@
 							"raw": "http://{{domain}}/123456789132456789",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{domain}}"
 							],
-							"port": "8080",
 							"path": [
 								"123456789132456789"
 							]

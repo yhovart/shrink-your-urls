@@ -16,7 +16,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	runtimeOnly("com.h2database:h2")
+	implementation("com.h2database:h2") // pas runtime car on le reference èa la compil pour exposer a l'externe
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
