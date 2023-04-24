@@ -3,6 +3,7 @@ package com.yho.urlshrinker.service;
 import java.util.UUID;
 import java.util.stream.StreamSupport;
 import java.net.URL;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,11 +32,15 @@ public class UrlService {
 
     private int nbRetry;
 
+    private int shortCodeLength;
+
     public UrlService(UrlRepository repository, UrlShrinker shrinker,
-        @Value("${url-shrinker.retryOnNonUniqueCode:3}") int nbRetry) {
+        @Value("${url-shrinker.retryOnNonUniqueCode:3}") int nbRetry,
+        @Value("${url-shrinker.shortCodeLength:9}") int shortCodeLength) {
         this.repository = repository;
         this.shrinker = shrinker;
         this.nbRetry = nbRetry;
+        this.shortCodeLength = shortCodeLength;
     }
 
     public List<UrlDetails> getUrls() {
@@ -55,7 +60,7 @@ public class UrlService {
         var entity = new UrlEntity();
         entity.setId(UUID.randomUUID());
         entity.setUrl(url);
-        entity.setCode(this.shrinker.shrink(url));
+        entity.setCode(this.generateCode(url));
 
         var result = this.repository.saveIfUnique(entity);
         return toUrlDetails(result);
@@ -93,6 +98,17 @@ public class UrlService {
             () -> new UrlCodeNotFound(code)
         );
     }
+
+
+    private String generateCode(URL url){
+        var shortCode = this.shrinker.shrink(url);
+        var encoded = Base64.getUrlEncoder().encodeToString(shortCode.getBytes());
+        if (encoded.length() > shortCodeLength){
+            return encoded.substring(0, shortCodeLength);
+        }
+        return encoded;
+    }
+
 
     public void clear() {
         repository.deleteAll();

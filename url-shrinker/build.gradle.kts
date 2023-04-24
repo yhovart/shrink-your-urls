@@ -17,15 +17,14 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
+	// implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 
 	implementation("com.h2database:h2")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("io.projectreactor:reactor-test")
-	testImplementation("it.ozimov:embedded-redis:0.7.2")
+	// testImplementation("io.projectreactor:reactor-test")
 }
 
 tasks.withType<Test> {

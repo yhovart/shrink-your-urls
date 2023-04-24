@@ -6,7 +6,7 @@ La solution sera composée :
    * Récupérer les informaitons d'une url courte
    * quelques autres endpoints classiques pour faciliter les tests
  * Une url de redirection 
-   * http://domain/code-court  --À http://mon-url-originale (HTTP 302)
+   * http://domain/code-court  --> http://mon-url-originale (HTTP 302)
 
 La redirection s'effectue côté client.
 
@@ -87,17 +87,24 @@ java -jar build\libs\url-storage-0.0.1-SNAPSHOT.jar --spring.datasource.url=jdbc
 
 Profils:
   * default : H2 + random short code + base64
-  * mem : remplace h2 par une implem memoire (hashmap)
-  * mongo : remplace h2 par une implem mongo
+  * memory : remplace h2 par une implem memoire (hashmap)
+  * mongo : remplace h2 par une implem mongo -- TODO
   * redis : ajouter un cache Redis pour fournir les URLs courtes --> longues -- TODO
   * hash : remplace la generation du code par un hashing de l'url longue
+  * time : remplace la generation du code par un timeInMillis
   * seq : remplace la generation du code par l'utilisation d'une sequence -- TODO
   * pregenerate : remplace l enertion du code par le recours a des codes pre-generes -- TODO
 
 
 Paramétres surchargeables:
   * url-shrinker.retryOnNonUniqueCode : Defaut 3. ex: --url-shrinker.retryOnNonUniqueCode=10
-  * url-shrinker.shortCodeSize : Defult 9. may be ineffective according to the strategy choosen. ex: --url-shrinker.shortCodeSize=20  -- TODO
+  * url-shrinker.shortCodeLength : Defult 9. may be ineffective according to the strategy choosen. ex: --url-shrinker.shortCodeSize=20  -- TODO
+
+
+Port différent, stockage en memoire plutot que h2, hashing plutot que random, 50 retry plutot que 3, code sur 3 caractere plutot que 9
+java -jar build\libs\url-shrinker-0.0.1-SNAPSHOT.jar --server.port=9999 --spring.profiles.active=memory,hash --url-shrinker.retryOnNonUniqueCode=50 --url-shrinker.shortCodeLength=3
+
+
 
 
 

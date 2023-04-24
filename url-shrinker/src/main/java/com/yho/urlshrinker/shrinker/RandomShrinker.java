@@ -8,7 +8,7 @@ public class RandomShrinker implements UrlShrinker {
 
     @Override
     public String shrink(URL original) {
-        return UUID.randomUUID().toString().replaceAll("-", "").substring(0, 9);
+        return UUID.randomUUID().toString().replaceAll("-", "");
     }
     
 

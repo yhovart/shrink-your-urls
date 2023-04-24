@@ -6,5 +6,6 @@ Possibilité de changer le domain sur lequel elle s'exécute (variable "domain")
 TODO - newman
 TODO - pouvoir rouler la collection en alternant les appels sur 2 instances diférentes (valider la scalabilité)
 TODO - Tester le scenario via RestAssured
+TODO - perfs tests (Gatling?)
 
 L'idée est d'intégrer cela èa un pipeline de CI/CD

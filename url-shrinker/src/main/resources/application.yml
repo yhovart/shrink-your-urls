@@ -1,4 +1,6 @@
 spring:
+    profiles:
+        default: random, jpa
     datasource:
         url: jdbc:h2:mem:url-storage
         driver-class-name: org.h2.Driver

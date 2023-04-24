@@ -11,7 +11,7 @@ import com.yho.urlshrinker.exception.NonUniqueCodeException;
 
 import org.hibernate.exception.ConstraintViolationException;
 
-@Profile("default")
+@Profile("jpa")
 public interface UrlEntiryJpARepository extends JpaRepository<UrlEntity, UUID>, UrlRepository {
 
   
