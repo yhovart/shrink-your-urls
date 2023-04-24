@@ -100,6 +100,7 @@ Directement destiné aux reviewers de cet exercice.
 J'ai voulu profiter de cet exercice pour tester différentes choses:
   * VsCode
   * Les record classes
+  * l'API Problem de Zalando intégrée dans SB3 (2 user case; generique via RestControllerAdvice + via une exception custom pour un cas particulier)
   * Coder sans lombok (supposant que les record le rendent moins utile; un peu décu) ou les data class kotlin
   * gradle.kts (transparent)
   * les auditable jpa (revisite en SB3.x, pas tellement changés)
