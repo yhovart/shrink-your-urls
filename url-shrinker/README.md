@@ -77,11 +77,11 @@ Cette application dispose cependant de deux paramétres supplémentaires et surc
 
 Port différent, stockage en memoire, code basé sur un hash, 50 retry max (vs 3), code de 3 caractéres (vs 9)
 
-   java -jar build\libs\url-shrinker-0.0.1-SNAPSHOT.jar --spring.profiles.active=memory,seq --url-shrinker.retryOnNonUniqueCode=50 --url-shrinker.shortCodeLength=3 
+    java -jar build\libs\url-shrinker-0.0.1-SNAPSHOT.jar --spring.profiles.active=memory,seq --url-shrinker.retryOnNonUniqueCode=50 --url-shrinker.shortCodeLength=3 
 
 Port différent, stockage mongo, code basé sur une sequence
 
-   java -jar build\libs\url-shrinker-0.0.1-SNAPSHOT.jar --server.port=9999 --spring.profiles.active=mongo,seq 
+    java -jar build\libs\url-shrinker-0.0.1-SNAPSHOT.jar --server.port=9999 --spring.profiles.active=mongo,seq 
 
  Si on lance plusierus instances utiliser des parametres consistant en dehors du port.
 
@@ -90,7 +90,9 @@ Port différent, stockage mongo, code basé sur une sequence
 Directement destiné aux reviewers de cet exercice.
 
 ### NDC et Todos
+
 // NDC dans le code correspond à des commentaires destinés aux reviewer
+
 // TODO représente les choses qui n'ont pas pu etre terminée ou qui demanderaient plus d'investigations avant de trancher
 
 ### Choses nouvelles tesées
