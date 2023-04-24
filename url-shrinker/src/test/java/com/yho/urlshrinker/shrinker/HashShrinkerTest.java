@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 public class HashShrinkerTest {
 
-    HashShrinker shrinker = new HashShrinker(); 
+    HashRandomShrinker shrinker = new HashRandomShrinker(); 
 
     @Test
     void shrinking_NonNullUrl_GivesAResult() throws MalformedURLException {

@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.lang.NonNull;
 
-import com.yho.urlshrinker.shrinker.HashShrinker;
-import com.yho.urlshrinker.shrinker.RandomShrinker;
+import com.yho.urlshrinker.shrinker.HashRandomShrinker;
+import com.yho.urlshrinker.shrinker.UUIDRandomShrinker;
 import com.yho.urlshrinker.shrinker.UrlShrinker;
 
 @Configuration
@@ -17,14 +17,14 @@ public class ShrkinkingConfig {
     @Bean
     @Profile("random")
     UrlShrinker basicShrinker(){
-        return new RandomShrinker();
+        return new UUIDRandomShrinker();
     }
     
 
     @Bean
     @Profile("hash")
     UrlShrinker hashShrinker(){
-        return new HashShrinker();
+        return new HashRandomShrinker();
     }
 
     @Bean

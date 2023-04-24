@@ -7,8 +7,13 @@ import java.security.NoSuchAlgorithmException;
 
 import org.springframework.lang.NonNull;
 
-
-public class HashShrinker implements UrlShrinker {
+/**
+ * Using a hash to generate the code.
+ * As we want unique results we also use a timestamp before hashing.
+ * Collisions are still possible if called during the same millisecond with the same url.
+ */
+// NDC : hashing but random --> using a hash is pointless ?
+public class HashRandomShrinker implements UrlShrinker {
 
     @Override
     public String shrink(@NonNull URL url) {
@@ -19,7 +24,7 @@ public class HashShrinker implements UrlShrinker {
             throw new RuntimeException("short code cant be generated", e);
         }
         // we're not using hashing for reproductibility here; we want unique results each time
-        var stringToHash = url.toString() + System.currentTimeMillis();
+        var stringToHash = System.currentTimeMillis() + url.toString();
         var encodedhash = digest.digest(stringToHash.getBytes(StandardCharsets.UTF_8));
         return new String(encodedhash);
     }

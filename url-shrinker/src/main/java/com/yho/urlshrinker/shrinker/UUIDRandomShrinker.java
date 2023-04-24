@@ -6,7 +6,7 @@ import java.util.UUID;
 import org.springframework.lang.NonNull;
 
 
-public class RandomShrinker implements UrlShrinker {
+public class UUIDRandomShrinker implements UrlShrinker {
 
     @Override
     public String shrink(@NonNull URL original) {

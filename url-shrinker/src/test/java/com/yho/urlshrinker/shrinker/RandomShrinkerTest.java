@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 public class RandomShrinkerTest {
 
-    RandomShrinker shrinker = new RandomShrinker(); 
+    UUIDRandomShrinker shrinker = new UUIDRandomShrinker(); 
 
     @Test
     void shrinking_NonNullUrl_GivesAResult() throws MalformedURLException {
