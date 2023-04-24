@@ -6,9 +6,9 @@ On suppose qu'il s'agit d'un besoin type youtube/instagram/whatsapp/twitter : R�
 
 ## Composition du repo
 
-    * [Le projet en lui même, tout se passe ici](./url-shrinker/README.md)
-    * [Un projet vide permettant de lancer un BD h2 accessible de l'externe. Utilisation facultative](./url-storage/README.md)
-    * [Les smoke tests ou plus humblement... un postman](./smoke-tests/README.md)
+[Le projet en lui même, tout se passe ici](./url-shrinker/README.md)
+[Un projet vide permettant de lancer un BD h2 accessible de l'externe. Utilisation facultative](./url-storage/README.md)
+[Les smoke tests ou plus humblement... un postman](./smoke-tests/README.md)
 
 ## Solution Globale
 
@@ -48,9 +48,9 @@ Une fois le code généré on l'encodera en Base 64 (par simplicité; BASE 62 se
 
 
 
-## La persistence
+### La persistence
 
-### Options :
+#### Options 
  * SGBD traditionnel : Parfait pour les sequences et garantir l'unicité du code court, pas d'autres utilités d'avoir une BD relationelle par contre; attention au volume et aux performances; difficilement scalable passé un certain volume (cf. approche instagram dans les references)
  * NoSQL : Performances, scalabilité.
  * Cache / BD Memoire : Throughput (trés utile pour l'url de redirection); Choisir un service qui supporte la persistence. Volume par url léger; mais beaucoup d'urls a stocker: attention au coût.
@@ -74,7 +74,7 @@ Abandonné:
   * a voir fonction du temps : une simulation d'un systeme de pre-generation est envisageable
 
 
-## Options implémentés dans le cadre de l'exercice
+## Options implémentées dans le cadre de l'exercice
 
 Stockage en SGBR traditionnel. h2 embedded a été utilisé pour éviter les etapes d'installation. On peut lancer une BD dans un process séparées pour ne pas perdre les données a chaque redémarrage (simulation de persistance réelle).
 
@@ -83,9 +83,15 @@ Le code est généré aléatoirement, via un UUID (defaut), un hash + timestamp 
 
 ## Références
 https://instagram-engineering.com/sharding-ids-at-instagram-1cf5a71e5a5c
+
 https://blog.codinghorror.com/url-shortening-hashes-in-practice/
+
 https://photutorial.com/photos-statistics/
-https://gosunaina.medium.com/designing-a-scalable-url-shortener-like-tiny-url-72106a7018ee
+
+https://gosunaina.medium.com/
+designing-a-scalable-url-shortener-like-tiny-url-72106a7018ee
+
 https://www.geeksforgeeks.org/how-to-design-a-tiny-url-or-url-shortener/
+
 https://blog.codinghorror.com/url-shortening-hashes-in-practice/
 
