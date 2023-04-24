@@ -6,8 +6,12 @@ On suppose qu'il s'agit d'un besoin type youtube/instagram/whatsapp/twitter : RÃ
 
 ## Composition du repo
 
+Trois sous-dossiers:
+
 [Le projet en lui mÃªme, tout se passe ici](./url-shrinker/README.md)
-[Un projet vide permettant de lancer un BD h2 accessible de l'externe. Utilisation facultative](./url-storage/README.md)
+
+[La BD h2 accessible de l'externe. Utilisation facultative](./url-storage/README.md)
+
 [Les smoke tests ou plus humblement... un postman](./smoke-tests/README.md)
 
 ## Solution Globale

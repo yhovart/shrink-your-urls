@@ -18,24 +18,27 @@ Démarrer la BD partagée (port 9090)
     gradlew bootRun
 
 Démarrer l'application en se brancant sur la BD partagée (port 9090)
+    
     cd ../url-shrinker
     gradlew clean build
-    java -jar build\libs\url-shrinker-0.0.1-SNAPSHOT.jar --spring.datasource.url=jdbc:h2:tcp://localhost:9090/mem:url-storage --spring.datasource.username=yho --spring.datasource.password=localusage
-TODO : equivalent via gradlew bootRun
+    gradlew bootRun --args="--spring.datasource.url=jdbc:h2:tcp://localhost:9090/mem:url-storage --spring.datasource.username=yho --spring.datasource.password=localusage"
 
 ### Démarrer plusieurs instance, bd locale
 
 Démarrer la BD partagée (port 9090)
+
     cd ../url-storage
     gradlew bootRun
 
 Démarrer l'application en se brancant sur la BD partagée, faire varier le port utilisé
+
     cd ../url-shrinker
     gradlew bootRun --args="--spring.datasource.url=jdbc:h2:tcp://localhost:9090/mem:url-storage --spring.datasource.username=yho --spring.datasource.password=localusage --server.port=8090"
     gradlew bootRun --args="--spring.datasource.url=jdbc:h2:tcp://localhost:9090/mem:url-storage --spring.datasource.username=yho --spring.datasource.password=localusage --server.port=8091"
 
 
 Ou si on préfére lancer un process java directement
+
     gradlew clean build
     java -jar build\libs\url-shrinker-0.0.1-SNAPSHOT.jar --spring.datasource.url=jdbc:h2:tcp://localhost:9090/mem:url-storage --spring.datasource.username=yho --spring.datasource.password=localusage --server.port=8090
     java -jar build\libs\url-shrinker-0.0.1-SNAPSHOT.jar --spring.datasource.url=jdbc:h2:tcp://localhost:9090/mem:url-storage --spring.datasource.username=yho --spring.datasource.password=localusage --server.port=8091
@@ -74,9 +77,11 @@ Cette application dispose cependant de deux paramétres supplémentaires et surc
 ### Exemples de configurations "custom"
 
 Port différent, stockage en memoire, code basé sur un hash, 50 retry max (vs 3), code de 3 caractéres (vs 9)
+
    java -jar build\libs\url-shrinker-0.0.1-SNAPSHOT.jar --spring.profiles.active=memory,seq --url-shrinker.retryOnNonUniqueCode=50 --url-shrinker.shortCodeLength=3 
 
 Port différent, stockage mongo, code basé sur une sequence
+
    java -jar build\libs\url-shrinker-0.0.1-SNAPSHOT.jar --server.port=9999 --spring.profiles.active=mongo,seq 
 
  Si on lance plusierus instances utiliser des parametres consistant en dehors du port.
@@ -85,7 +90,7 @@ Port différent, stockage mongo, code basé sur une sequence
 
 Directement destiné aux reviewers de cet exercice.
 
-### NDC et Todds
+### NDC et Todos
 // NDC dans le code correspond à des commentaires destinés aux reviewer
 // TODO représente les choses qui n'ont pas pu etre terminée ou qui demanderaient plus d'investigations avant de trancher
 
@@ -119,4 +124,5 @@ Eléments envisagés mais abandonnés :
 ## Références
 
 https://www.sivalabs.in/spring-boot-3-error-reporting-using-problem-details/
+
 https://www.javaguides.net/2018/09/spring-data-jpa-auditing-with-spring-boot2-and-mysql-example.html
