@@ -20,7 +20,6 @@ Démarrer la BD partagée (port 9090)
 Démarrer l'application en se brancant sur la BD partagée (port 9090)
     
     cd ../url-shrinker
-    gradlew clean build
     gradlew bootRun --args="--spring.datasource.url=jdbc:h2:tcp://localhost:9090/mem:url-storage --spring.datasource.username=yho --spring.datasource.password=localusage"
 
 ### Démarrer plusieurs instance, bd locale
