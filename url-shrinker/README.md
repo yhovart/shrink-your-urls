@@ -111,6 +111,8 @@ Eléments envisagés mais abandonnés :
   * CI/CD/deploiement sur un cloud
   * Développement réactif : ne semble pas intéressant par rapport au use case + gros potentiel de depasser le timing
   * GraphQL vs REST : idem
+  * Monitoring des perfs
+  * Pouvoir monitorer la fréquence des collisions
   * Cryptage des URLS stockées : une url peut contenir des informations confidentielles comme des identifiants de session ou des query params; on a contourné ici le probleme en supposant que le syteme appelant l'API ne pouvait pas fournir ce genre d'elements.
 
 ## Références
