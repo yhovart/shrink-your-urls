@@ -1,3 +1,5 @@
+![alt text](https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/FF1DB2E97BEB4746B8F2583A201CA797B318154BFD3B2FFE3894B7B8268FAFD5/scale?width=1200&aspectRatio=1.78&format=jpeg)
+
 # shrink-your-urls
 
 On suppose qu'il s'agit d'un besoin type youtube/instagram/whatsapp/twitter : Réduire les urls pour pouvoir les partager facilement, notamment dans les outils où le nombre de caracteres est limité.
