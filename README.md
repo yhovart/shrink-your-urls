@@ -88,8 +88,7 @@ https://blog.codinghorror.com/url-shortening-hashes-in-practice/
 
 https://photutorial.com/photos-statistics/
 
-https://gosunaina.medium.com/
-designing-a-scalable-url-shortener-like-tiny-url-72106a7018ee
+https://gosunaina.medium.com/designing-a-scalable-url-shortener-like-tiny-url-72106a7018ee
 
 https://www.geeksforgeeks.org/how-to-design-a-tiny-url-or-url-shortener/
 

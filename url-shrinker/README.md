@@ -1,6 +1,6 @@
 # url-shrinker
 
-Webapp qui a 2 but:
+Webapp qui a 2 buts:
   * Exposer l'API de creation/recherche de shorts url
   * Exposer une url permettant aux utilisateurs d'etre redigié vers l'url original a partir de l'url ourte
 
@@ -13,6 +13,7 @@ gradlew bootRun
 ### Démarrer une instance, bd locale
 
 Démarrer la BD partagée (port 9090)
+    
     cd ../url-storage
     gradlew bootRun
 
