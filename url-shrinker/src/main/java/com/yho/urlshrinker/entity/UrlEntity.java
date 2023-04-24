@@ -4,21 +4,40 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.annotations.UuidGenerator.Style;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 // Record classes can't be used with JPA/Hibernate
 // what aboute other storage ?
 // note: CrudRepository recommend that the types should not be final (so should not be records)
-//public record UrlEntity (UUID id, URL url, String code) {
+@Entity
+@Table(name = "urls")
+@EntityListeners(AuditingEntityListener.class)
 public class UrlEntity {
-      
+    
+    @Id
+    @UuidGenerator(style = Style.RANDOM)
     private UUID id;
 
+    @NotNull
     private URL url; 
     
+    @NotNull
+    @Size(min = 9, max = 9)
+    @Column(unique = true)
     private String code;
 
     @CreatedDate

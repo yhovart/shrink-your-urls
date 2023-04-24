@@ -27,6 +27,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
           .forStatusAndDetail(HttpStatusCode.valueOf(404),ex.getLocalizedMessage());
       body.setType(URI.create("http://urlshrinker.com/errors/not-found"));
       body.setTitle("Resource Not found");
+      body.setProperty("API-Error-Code", "URL-NFD-404");
       body.setProperty("ressourceId", ex.getId());
       body.setProperty("resourceType", ex.getResourceType());
   
@@ -41,6 +42,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
           .forStatusAndDetail(HttpStatusCode.valueOf(400),ex.getLocalizedMessage());
       body.setType(URI.create("http://urlshrinker.com/errors/bad-request"));
       body.setTitle("Bad Request");
+      body.setProperty("API-Error-Code", "URL-VLD-001");
       ex.getConstraintViolations().iterator().forEachRemaining(it -> {
         body.setProperty("error", it.getMessage());  
       }

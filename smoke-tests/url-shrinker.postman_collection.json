@@ -28,7 +28,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/actuator",
+							"raw": "http://{{domain}}/actuator",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -80,7 +80,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/api/v1/urls/888d37aa-4f8a-410f-8bb5-e0efd8249bc2",
+									"raw": "http://{{domain}}/api/v1/urls/888d37aa-4f8a-410f-8bb5-e0efd8249bc2",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -126,7 +126,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/api/v1/urls/invalid",
+									"raw": "http://{{domain}}/api/v1/urls/invalid",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -157,7 +157,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/v1/urls",
+									"raw": "http://{{domain}}/api/v1/urls",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -201,7 +201,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/urls/search",
+							"raw": "http://{{domain}}/api/v1/urls/search",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -259,7 +259,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/urls",
+							"raw": "http://{{domain}}/api/v1/urls",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -313,7 +313,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/urls",
+							"raw": "http://{{domain}}/api/v1/urls",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -357,7 +357,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/urls/{{google-search-id}}",
+							"raw": "http://{{domain}}/api/v1/urls/{{google-search-id}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -415,7 +415,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/urls",
+							"raw": "http://{{domain}}/api/v1/urls",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -459,7 +459,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/urls/{{notarius-fullstack-id}}",
+							"raw": "http://{{domain}}/api/v1/urls/{{notarius-fullstack-id}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -516,7 +516,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/urls",
+							"raw": "http://{{domain}}/api/v1/urls",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -560,7 +560,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/urls/{{y2u.be-id}}",
+							"raw": "http://{{domain}}/api/v1/urls/{{y2u.be-id}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -603,7 +603,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/urls/search",
+							"raw": "http://{{domain}}/api/v1/urls/search",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -644,7 +644,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/{{google-search-short-code}}",
+							"raw": "http://{{domain}}/{{google-search-short-code}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -676,7 +676,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/{{notarius-fullstack-short-code}}",
+							"raw": "http://{{domain}}/{{notarius-fullstack-short-code}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -714,7 +714,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/{{y2u.be-short-code}}",
+							"raw": "http://{{domain}}/{{y2u.be-short-code}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -752,7 +752,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/123456789",
+							"raw": "http://{{domain}}/123456789",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -790,7 +790,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/123456789132456789",
+							"raw": "http://{{domain}}/123456789132456789",
 							"protocol": "http",
 							"host": [
 								"localhost"

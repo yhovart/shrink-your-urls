@@ -1,6 +1,5 @@
 package com.yho.urlshrinker;
 
-import org.hibernate.validator.constraints.Length;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -40,6 +39,7 @@ public class Redirector implements ErrorController {
     }
 
 
+    // basic error handling for the NON REST API porion of the app
     @RequestMapping("/error")
     @ResponseBody
     String error(HttpServletRequest request) {

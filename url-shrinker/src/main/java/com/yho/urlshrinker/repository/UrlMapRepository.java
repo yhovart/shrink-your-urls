@@ -7,15 +7,17 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.StreamSupport;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import com.yho.urlshrinker.entity.UrlEntity;
+import com.yho.urlshrinker.exception.NonUniqueCodeException;
 
 /**
  * In memory hasmap repository; for dev and test purpose only.
  */
-// TODO: Delete me once POC is done
 @Repository
+@Profile("memory")
 public class UrlMapRepository implements UrlRepository {
 
     Map<UUID, UrlEntity> URLS = new HashMap<>();
@@ -29,6 +31,13 @@ public class UrlMapRepository implements UrlRepository {
         URLS_BY_URL.put(entity.getUrl().toString(), entity);
         return entity;
     }
+
+    public <S extends UrlEntity> S saveIfUnique(S entity) throws NonUniqueCodeException {
+        if (URLS_BY_CODE.containsKey(entity.getCode())){
+            throw new  NonUniqueCodeException(entity.getCode(), "Code already used"); 
+        }
+        return this.save(entity);
+    };
 
     @Override
     public <S extends UrlEntity> Iterable<S> saveAll(Iterable<S> entities) {
@@ -96,7 +105,7 @@ public class UrlMapRepository implements UrlRepository {
     }
 
     @Override
-    public Optional<UrlEntity> findByOriginalUrl(URL url) {
+    public Optional<UrlEntity> findByUrl(URL url) {
         return Optional.ofNullable(URLS_BY_URL.get(url.toString()));
     }
 
