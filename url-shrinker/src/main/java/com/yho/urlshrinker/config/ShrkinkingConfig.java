@@ -5,6 +5,7 @@ import java.net.URL;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.lang.NonNull;
 
 import com.yho.urlshrinker.shrinker.HashShrinker;
 import com.yho.urlshrinker.shrinker.RandomShrinker;
@@ -33,7 +34,7 @@ public class ShrkinkingConfig {
         return new UrlShrinker() {
 
             @Override
-            public String shrink(URL original) {
+            public String shrink(@NonNull URL original) {
                 return String.valueOf(System.currentTimeMillis());
             }
             

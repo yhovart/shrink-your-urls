@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,7 +37,8 @@ public class UrlService {
 
     public UrlService(UrlRepository repository, UrlShrinker shrinker,
         @Value("${url-shrinker.retryOnNonUniqueCode:3}") int nbRetry,
-        @Value("${url-shrinker.shortCodeLength:9}") int shortCodeLength) {
+        @Value("${url-shrinker.shortCodeLength:9}") int shortCodeLength
+        ) {
         this.repository = repository;
         this.shrinker = shrinker;
         this.nbRetry = nbRetry;
@@ -56,18 +58,18 @@ public class UrlService {
     }
 
 
-    private UrlDetails createUrlEntity(URL url) {
+    private UrlDetails createUrlEntity(@NonNull URL url) {
         var entity = new UrlEntity();
         entity.setId(UUID.randomUUID());
         entity.setUrl(url);
         entity.setCode(this.generateCode(url));
 
-        var result = this.repository.saveIfUnique(entity);
+        var result = this.repository.saveIfCodeIsUnique(entity);
         return toUrlDetails(result);
     }
 
     @Transactional
-    public UrlDetails createUrl(URL url) {
+    public UrlDetails createUrl(@NonNull URL url) {
         NonUniqueCodeException last = null;
         for(int i = 0; i <= nbRetry; i++){
             try{
@@ -100,7 +102,7 @@ public class UrlService {
     }
 
 
-    private String generateCode(URL url){
+    private String generateCode(@NonNull URL url){
         var shortCode = this.shrinker.shrink(url);
         var encoded = Base64.getUrlEncoder().encodeToString(shortCode.getBytes());
         if (encoded.length() > shortCodeLength){

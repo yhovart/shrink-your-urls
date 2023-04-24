@@ -27,6 +27,10 @@ dependencies {
 	// testImplementation("io.projectreactor:reactor-test")
 }
 
+// TODO : coverage (fail si pas suffisant)
+// detection vulnerabilités (pourrait etre CI)
+
+
 tasks.withType<Test> {
 	useJUnitPlatform()
 }

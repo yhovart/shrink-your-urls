@@ -1,4 +1,4 @@
-package com.yho.urlshrinker;
+package com.yho.urlshrinker.web;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -99,7 +100,7 @@ public class UrlController {
     }
 
 
-    private URL getAsUrl(String url) {
+    private @NonNull URL getAsUrl(@NonNull String url) {
         try {
             return new URL(url);
         } catch (MalformedURLException e) {

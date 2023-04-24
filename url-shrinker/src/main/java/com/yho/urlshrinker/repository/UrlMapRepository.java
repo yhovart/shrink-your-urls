@@ -1,6 +1,7 @@
 package com.yho.urlshrinker.repository;
 
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -15,24 +16,41 @@ import com.yho.urlshrinker.exception.NonUniqueCodeException;
 
 /**
  * In memory hasmap repository; for dev and test purpose only.
+ * Prevents horizontal scaling.
  */
 @Repository
 @Profile("memory")
+// NDC : Ce repo a servi a sketché rapidement l'API sans avoir a prenre de décision sur la persistence.
+//  Il n'a plus d'utilité maintenant.
+//  Il a été conservé car il contient plus de code et permet donc des tests unitires sur une classe plus complete que via un repo JPA
+//  Il permet d'illuster facilement l'utilisation des profils pour changer le comportement runtime qui pourrait etre utile en cas d'essais comparatifs.
 public class UrlMapRepository implements UrlRepository {
 
-    Map<UUID, UrlEntity> URLS = new HashMap<>();
-    Map<String, UrlEntity> URLS_BY_CODE = new HashMap<>();
-    Map<String, UrlEntity> URLS_BY_URL = new HashMap<>();
+
+    private Map<UUID, UrlEntity> URLS = new HashMap<>();
+    private Map<String, UrlEntity> URLS_BY_CODE = new HashMap<>();
+    private Map<String, UrlEntity> URLS_BY_URL = new HashMap<>();
+    // NDC : Repository = singleton; no need for static maps
 
     @Override
     public <S extends UrlEntity> S save(S entity) {
+        var existing = URLS.get(entity.getId());
         URLS.put(entity.getId(), entity);
         URLS_BY_CODE.put(entity.getCode(), entity);
         URLS_BY_URL.put(entity.getUrl().toString(), entity);
+
+        // init la date de modif et le modifierdBy aux donnees de creation permet d'avoir des champs non nullable
+        if (existing == null){
+            entity.setCreationDate(LocalDateTime.now());
+            entity.setCreator("creator");
+            entity.setModifiedBy("creator");
+        } 
+        entity.setModifiedDate(LocalDateTime.now());
+        entity.setModifiedBy("modifier");
         return entity;
     }
 
-    public <S extends UrlEntity> S saveIfUnique(S entity) throws NonUniqueCodeException {
+    public <S extends UrlEntity> S saveIfCodeIsUnique(S entity) throws NonUniqueCodeException {
         if (URLS_BY_CODE.containsKey(entity.getCode())){
             throw new  NonUniqueCodeException(entity.getCode(), "Code already used"); 
         }

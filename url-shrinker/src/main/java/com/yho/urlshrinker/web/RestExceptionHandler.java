@@ -1,4 +1,4 @@
-package com.yho.urlshrinker;
+package com.yho.urlshrinker.web;
 
 import java.net.URI;
 

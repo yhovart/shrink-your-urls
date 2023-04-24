@@ -36,7 +36,7 @@ public class UrlEntity {
     private URL url; 
     
     @NotNull
-    @Size(min = 9, max = 9)
+    @Size(min = 1)
     @Column(unique = true)
     private String code;
 
@@ -77,6 +77,38 @@ public class UrlEntity {
         this.code = code;
     }
 
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public LocalDateTime getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(LocalDateTime modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    public String getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -84,6 +116,10 @@ public class UrlEntity {
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((url == null) ? 0 : url.hashCode());
         result = prime * result + ((code == null) ? 0 : code.hashCode());
+        result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
+        result = prime * result + ((modifiedDate == null) ? 0 : modifiedDate.hashCode());
+        result = prime * result + ((creator == null) ? 0 : creator.hashCode());
+        result = prime * result + ((modifiedBy == null) ? 0 : modifiedBy.hashCode());
         return result;
     }
 
@@ -111,10 +147,30 @@ public class UrlEntity {
                 return false;
         } else if (!code.equals(other.code))
             return false;
+        if (creationDate == null) {
+            if (other.creationDate != null)
+                return false;
+        } else if (!creationDate.equals(other.creationDate))
+            return false;
+        if (modifiedDate == null) {
+            if (other.modifiedDate != null)
+                return false;
+        } else if (!modifiedDate.equals(other.modifiedDate))
+            return false;
+        if (creator == null) {
+            if (other.creator != null)
+                return false;
+        } else if (!creator.equals(other.creator))
+            return false;
+        if (modifiedBy == null) {
+            if (other.modifiedBy != null)
+                return false;
+        } else if (!modifiedBy.equals(other.modifiedBy))
+            return false;
         return true;
     }
 
-
+    
     
     
 }
