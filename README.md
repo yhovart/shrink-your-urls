@@ -1,4 +1,4 @@
-![alt text](https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/FF1DB2E97BEB4746B8F2583A201CA797B318154BFD3B2FFE3894B7B8268FAFD5/scale?width=1200&aspectRatio=1.78&format=jpeg)
+![alt text](https://assets1.ignimgs.com/2020/02/12/honey-shrunk-the-kids-rick-moranis-1581536848439_160w.jpg?width=1280)
 
 # shrink-your-urls
 
